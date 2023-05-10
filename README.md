@@ -8,8 +8,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 130.193.50.169
 
-Frontend https://...
+Frontend http://mesto.testo.nomoredomains.monster
 
-Backend https://...
+Backend http://api.mesto.testo.nomoredomains.monster
