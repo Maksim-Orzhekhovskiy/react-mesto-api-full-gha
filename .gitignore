@@ -35,3 +35,6 @@ npm-debug
 
 # Dependency directory
 node_modules
+
+/public
+/src

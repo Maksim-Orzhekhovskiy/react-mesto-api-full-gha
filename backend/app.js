@@ -28,14 +28,8 @@ mongoose
     console.error(err);
   });
 
-const corsOptions = {
-  origin: [
-    "http://mesto.testo.nomoredomains.monster",
-    "https://mesto.testo.nomoredomains.monster",
-  ],
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
