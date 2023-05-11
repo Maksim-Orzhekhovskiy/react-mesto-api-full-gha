@@ -38,7 +38,6 @@ export function getToken(jwt) {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${jwt}`,
-      Origin: "https://mesto.testo.nomoredomains.monster",
     },
   }).then(checkResponseData);
 }
