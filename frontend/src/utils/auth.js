@@ -1,4 +1,4 @@
-const BASE_AUTH_URL = "http://api.mesto.testo.nomoredomains.monster";
+const BASE_AUTH_URL = "https://api.mesto.testo.nomoredomains.monster";
 
 function checkResponseData(res) {
   if (!res.ok) {
@@ -13,7 +13,7 @@ export function registration(email, password) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Origin: "http://mesto.testo.nomoredomains.monster",
+      Origin: "https://mesto.testo.nomoredomains.monster",
     },
     body: JSON.stringify({ email, password }),
   }).then(checkResponseData);
@@ -25,7 +25,7 @@ export function login(email, password) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Origin: "http://mesto.testo.nomoredomains.monster",
+      Origin: "https://mesto.testo.nomoredomains.monster",
     },
     body: JSON.stringify({ email, password }),
   }).then(checkResponseData);
@@ -38,7 +38,7 @@ export function getToken(jwt) {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${jwt}`,
-      Origin: "http://mesto.testo.nomoredomains.monster",
+      Origin: "https://mesto.testo.nomoredomains.monster",
     },
   }).then(checkResponseData);
 }
