@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
@@ -26,6 +27,15 @@ mongoose
     console.log("Error on database connection");
     console.error(err);
   });
+
+const corsOptions = {
+  origin: [
+    "http://mesto.testo.nomoredomains.monster",
+    "https://mesto.testo.nomoredomains.monster",
+  ],
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());

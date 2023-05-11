@@ -4,7 +4,7 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://github.com/Maksim-Orzhekhovskiy/react-mesto-api-full-gha/tree/test
 
 ## Ссылки на проект
 
