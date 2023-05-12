@@ -4,12 +4,12 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/Maksim-Orzhekhovskiy/react-mesto-api-full-gha/tree/test
+Адрес репозитория: https://github.com/Maksim-Orzhekhovskiy/react-mesto-api-full-gha/tree/dev
 
 ## Ссылки на проект
 
-IP-адрес 130.193.50.169
+IP 130.193.50.169
 
-Frontend http://mesto.testo.nomoredomains.monster
+Frontend https://mesto.testo.nomoredomains.monster
 
-Backend http://api.mesto.testo.nomoredomains.monster
+Backend https://api.mesto.testo.nomoredomains.monster
