@@ -20,8 +20,9 @@ const app = express();
 
 app.use(cors({
   credentials: true,
-  origin: "*",
+  origin: "/\\.mesto.testo.nomoredomains.monster$/",
 }));
+
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
