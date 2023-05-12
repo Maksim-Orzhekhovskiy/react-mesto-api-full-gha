@@ -29,12 +29,7 @@ mongoose
   });
 
 
-  app.use(cors({
-    origin: "https://mesto.testo.nomoredomains.monster",
-    methods: "GET, POST, OPTIONS",
-    credentials: true,
-    allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  }));
+  app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
