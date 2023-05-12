@@ -20,7 +20,7 @@ const app = express();
 
 app.use(cors({
   credentials: true,
-  origin: "https://mesto.testo.nomoredomains.monster/",
+  origin: "https://mesto.testo.nomoredomains.monster",
 }));
 app.use(helmet());
 app.use(cookieParser());
