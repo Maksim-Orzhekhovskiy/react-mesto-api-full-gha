@@ -28,8 +28,12 @@ mongoose
     console.error(err);
   });
 
+const corsOptions = {
+  origin: "https://mesto.testo.nomoredomains.monster/sign-in",
+  optionsSuccessStatus: 200,
+};
 
-  app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
