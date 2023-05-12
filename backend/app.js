@@ -18,6 +18,14 @@ const DATABASE_URL = "mongodb://localhost:27017/mestob1";
 
 const app = express();
 
+app.use(cors({
+  credentials: true,
+  origin: "https://mesto.testo.nomoredomains.monster/",
+}));
+app.use(helmet());
+app.use(cookieParser());
+app.use(express.json());
+
 mongoose
   .connect("mongodb://127.0.0.1:27017/mestob1")
   .then(() => {
@@ -27,16 +35,6 @@ mongoose
     console.log("Error on database connection");
     console.error(err);
   });
-
-
-app.use(cors({
-  origin: "*",
-  credentials: true,
-}));
-
-app.use(express.json());
-app.use(cookieParser());
-app.use(helmet());
 
 app.use(requestLogger);
 app.use("/", indexRouter);
