@@ -1,22 +1,21 @@
-const { ValidationError, DocumentNotFoundError, CastError } =
-  require("mongoose").Error;
+const { ValidationError, DocumentNotFoundError, CastError } = require('mongoose').Error;
 
-const UnauthorizedError = require("../errors/unauthorizedError");
-const ForbiddenError = require("../errors/forbiddenError");
-const NotFoundError = require("../errors/notFoundError");
+const UnauthorizedError = require('../errors/unauthorizedError');
+const ForbiddenError = require('../errors/forbiddenError');
+const NotFoundError = require('../errors/notFoundError');
 
 module.exports = ((err, req, res, next) => {
   if (err instanceof ValidationError) {
     const errorMessage = Object.values(err.errors)
       .map((error) => error.message)
-      .join(" ");
+      .join(' ');
     return res.status(400).send({
       message: `Переданы некорректные данные. ${errorMessage}`,
     });
   }
   if (err instanceof DocumentNotFoundError) {
     return res.status(404).send({
-      message: "В базе данных не найден документ с таким ID",
+      message: 'В базе данных не найден документ с таким ID',
     });
   }
   if (err instanceof CastError) {
@@ -42,7 +41,7 @@ module.exports = ((err, req, res, next) => {
   if (err.code === 11000) {
     return res.status(409).send({
       message:
-        "Указанный email уже зарегистрирован. Пожалуйста используйте другой",
+        'Указанный email уже зарегистрирован. Пожалуйста используйте другой',
     });
   }
   res.status(500).send({

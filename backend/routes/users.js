@@ -1,6 +1,7 @@
-const express = require("express");
+const express = require('express');
+
 const userRouter = express.Router();
-const { celebrate, Joi } = require("celebrate");
+const { celebrate, Joi } = require('celebrate');
 
 const {
   getUsers,
@@ -8,45 +9,45 @@ const {
   updateUserInfo,
   updateUserAvatar,
   getUser,
-} = require("../controllers/users");
+} = require('../controllers/users');
 
-userRouter.get("/", getUsers);
+userRouter.get('/', getUsers);
 
-userRouter.get("/me", getUserInfo);
+userRouter.get('/me', getUserInfo);
 
 userRouter.patch(
-  "/me",
+  '/me',
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().required().min(2).max(30),
       about: Joi.string().required().min(2).max(30),
     }),
   }),
-  updateUserInfo
+  updateUserInfo,
 );
 
 userRouter.patch(
-  "/me/avatar",
+  '/me/avatar',
   celebrate({
     body: Joi.object().keys({
       avatar: Joi.string()
         .required()
         .regex(
-          /^(http|https)?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/im
+          /^(http|https)?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/im,
         ),
     }),
   }),
-  updateUserAvatar
+  updateUserAvatar,
 );
 
 userRouter.get(
-  "/:userId",
+  '/:userId',
   celebrate({
     params: Joi.object().keys({
       userId: Joi.string().required().hex().length(24),
     }),
   }),
-  getUser
+  getUser,
 );
 
 module.exports = userRouter;

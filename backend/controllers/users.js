@@ -1,6 +1,8 @@
-const User = require("../model/users");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../model/users');
+const NotFoundError = require('../errors/notFoundError');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getUsers = (req, res, next) => {
@@ -11,7 +13,7 @@ const getUsers = (req, res, next) => {
 
 const getUserById = (req, res, userData, next) => {
   User.findById(userData)
-    .orFail()
+    .orFail(() => new NotFoundError('Пользователь с указанным id не существует'))
     .then((user) => res.send(user))
     .catch(next);
 };
@@ -22,18 +24,18 @@ const getUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => {
       const data = user.toObject();
       delete data.password;
@@ -45,7 +47,7 @@ const createUser = (req, res, next) => {
 const userUpdate = (req, res, updateUser, next) => {
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, updateUser, { new: true, runValidators: true })
-    .orFail()
+    .orFail(() => new NotFoundError('Пользователь с указанным id не существует'))
     .then((user) => res.send(user))
     .catch(next);
 };
@@ -71,22 +73,21 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : "dev-secret-key",
-        { expiresIn: "7d" }
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret-key',
+        { expiresIn: '7d' },
       );
       res
-        .cookie("jwt", token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-      })
-        .send({ token })
-        res.status(200).send({ message: "Аутентификация прошла успешно" });
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
+        })
+        .send({ token });
+      res.status(200).send({ message: 'Аутентификация прошла успешно' });
     })
     .catch(next);
 };
-
 
 module.exports = {
   getUsers,
