@@ -1,7 +1,10 @@
 const bcrypt = require('bcrypt');
+const { ValidationError, DocumentNotFoundError, CastError } = require('mongoose').Error;
 const jwt = require('jsonwebtoken');
 const User = require('../model/users');
 const NotFoundError = require('../errors/notFoundError');
+const IncorrectDataError = require('../errors/incorrectDataError');
+const ConflictError = require('../errors/conflictError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -41,7 +44,15 @@ const createUser = (req, res, next) => {
       delete data.password;
       res.status(201).send(data);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err instanceof ValidationError) {
+        next(new IncorrectDataError('Переданы некорректные данные для создания пользователя.'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Указанный email уже зарегистрирован. Пожалуйста используйте другой email'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const userUpdate = (req, res, updateUser, next) => {
@@ -49,7 +60,17 @@ const userUpdate = (req, res, updateUser, next) => {
   User.findByIdAndUpdate(userId, updateUser, { new: true, runValidators: true })
     .orFail(() => new NotFoundError('Пользователь с указанным id не существует'))
     .then((user) => res.send(user))
-    .catch(next);
+    .catch((err) => {
+      if (err instanceof DocumentNotFoundError) {
+        next(new NotFoundError(`В базе данных не найден пользователь с ID: ${req.user._id}.`));
+      } else if (err instanceof CastError) {
+        next(new IncorrectDataError(`Передан некорректный ID пользователя: ${req.user._id}.`));
+      } else if (err instanceof ValidationError) {
+        next(new IncorrectDataError('Переданы некорректные данные для редактирования профиля.'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const getUserInfo = (req, res, next) => {

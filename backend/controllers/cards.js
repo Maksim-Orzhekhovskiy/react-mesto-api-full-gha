@@ -1,6 +1,8 @@
+const ValidationError = require('mongoose').Error;
 const Card = require('../model/cards');
 const ForbiddenError = require('../errors/forbiddenError');
 const NotFoundError = require('../errors/notFoundError');
+const IncorrectDataError = require('../errors/incorrectDataError');
 
 const getAllCards = (req, res, next) => {
   Card.find({})
@@ -15,7 +17,13 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: ownerId })
     .then((card) => card.populate('owner'))
     .then((card) => res.status(201).send(card))
-    .catch(next);
+    .catch((err) => {
+      if (err instanceof ValidationError) {
+        next(new IncorrectDataError('Переданы некорректные данные для создания карточки.'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const deleteCard = (req, res, next) => {
